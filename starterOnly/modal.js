@@ -79,7 +79,6 @@ let getLocation = () =>{
     }
   }
   
-  console.log(city);
   return true;
 } 
 
@@ -136,7 +135,7 @@ else if(birthDate.value == null || birthDate.value == ""){
 
 }
 //  (4) Pour le nombre de concours, une valeur numérique est saisie.
-else if(tournamentQtt.value == null || tournamentQtt.value == "" || isNaN(tournamentQtt.value) == true){
+else if(tournamentQtt.value == null || tournamentQtt.value == "" || isNaN(tournamentQtt.value) == true || tournamentQtt.value < 0){
   console.log('Veuillez entrer un chiffre');
   tournamentQtt.closest(".formData").setAttribute("data-error-visible", true);
   tournamentQtt.closest(".formData").setAttribute("data-error", "Veuillez renseigner le nombre de tournois auxquels vous avez participé.")
@@ -154,6 +153,14 @@ else if(city == null  || city == undefined){
 
   return false;
 }
+//(6) La case des conditions générales est cochée, l'autre case est facultative / peut être laissée décochée.
+else if(termsOfUse.checked != true || termsOfUse.checked == undefined || termsOfUse.checked == null){
+  console.log("Veuillez accepter nos conditions");
+  termsOfUse.closest(".formData").setAttribute("data-error-visible", true);
+  termsOfUse.closest(".formData").setAttribute("data-error", "Vous devez accepter les termes et conditions.");
+
+  return false;
+}
 else{
 
   return true;
@@ -162,17 +169,7 @@ else{
 }
 
 
-
-
-
-
-
-
-
-
-
-//(6) La case des conditions générales est cochée, l'autre case est facultative / peut être laissée décochée.
-
+// checkBox termsOfUse cochée par défaut;
 termsOfUse.setAttribute("checked", true);
 
 
@@ -182,7 +179,6 @@ let formData;
 let allDatas =[];
 function validate(){
   if(getLocation() == true && formVerification() == true ){
-
 
     formData = {
 
@@ -197,8 +193,12 @@ function validate(){
    
     }
     
+    // Ajout des données à l'objet allDatas
+
     allDatas.push(formData);
     console.log(allDatas);
+
+    thanksModal();
 
   } else{
     return false;
@@ -206,5 +206,18 @@ function validate(){
  
 }
 
+// function ThanksModal
+let modalForm = document.querySelector("#modalForm");
+let modalBody = document.querySelector(".modal-body");
+let thanksModal = () => {
+  form.remove();
+  modalBody.innerHTML += 
+  "<div class = 'thanksModal'> <div class = 'thanksMessage'>Thank you for submiting your registration details<div> <div class = 'thanksBtn' id='thanksBtn'> Close <div>";
+  modalbg.style.display = "block";
 
-// Créer une variable qui stock la valeur lors de la validation de chaque input (test unitaire)
+  let thanksBtn = document.querySelector('#thanksBtn');
+thanksBtn.addEventListener('click', ()=> {
+  modalbg.style.display = "none";
+})
+
+};
