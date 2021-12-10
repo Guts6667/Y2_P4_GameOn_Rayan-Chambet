@@ -118,15 +118,16 @@ let emailVerification = () => {
 }
 
 
-// let today = new Date();
+let today = new Date();
 
-// let currentDate = 'd-m-Y'
-//   .replace('d', today.getDate())
-//   .replace('m', today.getMonth()+1)
-//   .replace('Y', today.getFullYear()-18);
+let currentDate = 'Y-m-d'
 
-//   currentDate.toString();
-// console.log(currentDate);
+  .replace('Y', today.getFullYear()-18)
+  .replace('m', today.getMonth()+1)
+  .replace('d', today.getDate())
+
+  currentDate.toString();
+console.log(currentDate);
 
 
 
@@ -134,10 +135,10 @@ let emailVerification = () => {
 // Verification de la date
 let birthDateVerification = () => {
 
-  if(birthDate.value == null || birthDate.value == "" /**||  birthDate.value >= currentDate**/){
+  if(birthDate.value == null || birthDate.value == "" ||  birthDate.value >= currentDate){
     console.log('Veuillez entrer une date de de naissance');
     birthDate.parentElement.setAttribute("data-error-visible", true);
-    birthDate.parentElement.setAttribute("data-error", "Veuillez renseigner votre date de naissance.")
+    birthDate.parentElement.setAttribute("data-error", "Veuillez devez avoir au minimum 18ans pour vous inscrire.")
     birthDate.value="";
   
     return false;
@@ -146,6 +147,7 @@ let birthDateVerification = () => {
   else{
 
     birthDate.parentElement.setAttribute("data-error-visible", false);
+    console.log(birthDate.value);
     return true;
   }
 
@@ -248,6 +250,7 @@ let allDatas =[];
 function validate(){
   if(firstNameVerification() == true && lastNameVerification() == true && emailVerification() == true && birthDateVerification() == true && tournamentQttVerification() == true && getLocation() == true && radioBtnVerification() == true && termsOfUseVerification() == true){
 
+    birthDate.value;
     formData = {
 
       Prénom: firstName.value,
