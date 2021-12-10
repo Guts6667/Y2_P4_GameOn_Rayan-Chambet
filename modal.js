@@ -118,6 +118,7 @@ let emailVerification = () => {
 }
 
 
+// Récupération de la date actuelle - 18ans pour vérifier si majeur automatique
 let today = new Date();
 
 let currentDate = 'Y-m-d'
