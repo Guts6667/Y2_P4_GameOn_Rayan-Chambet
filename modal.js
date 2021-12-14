@@ -55,6 +55,126 @@ form.addEventListener('submit', (e) => {
 });
 
 
+// checkBox termsOfUse cochée par défaut;
+termsOfUse.setAttribute("checked", true);
+
+
+
+// (1) Le champ Prénom a un minimum de 2 caractères / n'est pas vide.
+
+const firstNameVerification = () => {
+  if(firstName.value == null || firstName.value == "" || isNaN(firstName.value) == false || firstName.value.length < 2){
+    console.log("Le champ prénom ne peut être vide et doit contenir au moins 2 lettres.");
+    
+    firstName.parentElement.setAttribute("data-error-visible", true);
+    firstName.parentElement.setAttribute("data-error", "Veuillez entrer 2 caractères ou plus pour le champ du nom.")
+    firstName.value="";
+  
+    return false;
+  
+  } 
+  else{
+    firstName.parentElement.setAttribute("data-error-visible", false);
+    return true
+  }
+}
+
+// (2) Le champ du nom de famille a un minimum de 2 caractères / n'est pas vide.
+const lastNameVerification = () => {
+
+  if(lastName.value == null || lastName.value == "" || isNaN(lastName.value) == false || lastName.value.length < 2){
+
+    console.log("Le champ nom ne peut être vide et doit contenir au moins 2 lettres.");
+  
+    lastName.parentElement.setAttribute("data-error-visible", true);
+    lastName.parentElement.setAttribute("data-error", "Veuillez entrer 2 caractères ou plus pour le champ du nom.")
+    lastName.value="";
+  
+    return false;
+  } 
+  else{
+    lastName.parentElement.setAttribute("data-error-visible", false);
+    return true
+  }
+}
+
+// (3) L'adresse électronique est valide.
+const emailVerification = () => {
+
+  if(email.value == null || email.value == "" || email.value.match(regexEmail) == false){
+
+    console.log("Veuillez entrer un email valide");
+  
+    email.closest(".formData").setAttribute("data-error-visible", true);
+    email.closest(".formData").setAttribute("data-error", "Veuillez entrer un email valide (ex : johndoe@gmail.com).")
+    email.value="";
+    
+    return false;
+  }
+   else{
+    email.closest(".formData").setAttribute("data-error-visible", false);
+    return true;
+   }
+}
+
+
+// Récupération de la date actuelle - 18ans pour vérifier si majeur automatique
+let today = new Date();
+
+let currentDate = 'Y-m-d'
+
+  .replace('Y', today.getFullYear()-18)
+  .replace('m', today.getMonth()+1)
+  .replace('d', today.getDate())
+
+  currentDate.toString();
+console.log(currentDate);
+
+
+
+
+// Verification de la date
+const birthDateVerification = () => {
+
+  if(birthDate.value == null || birthDate.value == "" ||  birthDate.value >= currentDate){
+    console.log('Veuillez entrer une date de de naissance');
+    birthDate.parentElement.setAttribute("data-error-visible", true);
+    birthDate.parentElement.setAttribute("data-error", "Veuillez devez avoir au minimum 18ans pour vous inscrire.")
+    birthDate.value="";
+  
+    return false;
+  
+  }
+  else{
+
+    birthDate.parentElement.setAttribute("data-error-visible", false);
+    console.log(birthDate.value);
+    return true;
+  }
+
+}
+
+
+//  (4) Pour le nombre de concours, une valeur numérique est saisie.
+const tournamentQttVerification = () => {
+  if(tournamentQtt.value == null || tournamentQtt.value == "" || isNaN(tournamentQtt.value) == true || tournamentQtt.value < 0){
+    console.log('Veuillez entrer un chiffre');
+    tournamentQtt.closest(".formData").setAttribute("data-error-visible", true);
+    tournamentQtt.closest(".formData").setAttribute("data-error", "Veuillez renseigner le nombre de tournois auxquels vous avez participé.")
+    tournamentQtt.value="";
+  
+    return false;
+  
+  }
+  else{
+
+    tournamentQtt.closest(".formData").setAttribute("data-error-visible", false);
+    return true;
+  }
+
+}
+
+//(5) Un bouton radio est sélectionné. (Bouton Aucun)
 let cities = [
 
   location1, 
@@ -67,11 +187,9 @@ let cities = [
 
 ];
 
-
-
-var i;
+let i;
 let city;
-let getLocation = () =>{
+const getLocation = () =>{
   
   for (i = 0; i < cities.length; i++) {
     if (cities[i].checked) {
@@ -82,95 +200,48 @@ let getLocation = () =>{
   return true;
 } 
 
+const radioBtnVerification = () => {
 
-
-
-
-// formVerification => Ne pas oublier d'en faire une variable à appeler dans la func valid()
-
-function formVerification(){
-// (1) Le champ Prénom a un minimum de 2 caractères / n'est pas vide.
-if(firstName.value == null || firstName.value == "" || isNaN(firstName.value) == false || firstName.value.length < 2){
-  console.log("Le champ prénom ne peut être vide et doit contenir au moins 2 lettres.");
+  if(city == null  || city == undefined){
+    console.log('Veuillez choisir une ville');
+    location1.closest(".formData").setAttribute("data-error-visible", true);
+    location1.closest(".formData").setAttribute("data-error", "Veuillez sélectionner une ville.")
   
-  firstName.parentElement.setAttribute("data-error-visible", true);
-  firstName.parentElement.setAttribute("data-error", "Veuillez entrer 2 caractères ou plus pour le champ du nom.")
-  firstName.value="";
-
-  return false;
-
-} 
-
-// (2) Le champ du nom de famille a un minimum de 2 caractères / n'est pas vide.
-
-else if(lastName.value == null || lastName.value == "" || isNaN(lastName.value) == false || lastName.value.length < 2){
-
-  console.log("Le champ nom ne peut être vide et doit contenir au moins 2 lettres.");
-
-  lastName.parentElement.setAttribute("data-error-visible", true);
-  lastName.parentElement.setAttribute("data-error", "Veuillez entrer 2 caractères ou plus pour le champ du nom.")
-  lastName.value="";
-
-  return false;
-} 
-// (3) L'adresse électronique est valide.
-
-else if(email.value == null || email.value == "" || email.value.match(regexEmail) == false){
-
-  console.log("Veuillez entrer un email valide");
-
-  email.closest(".formData").setAttribute("data-error-visible", true);
-  email.closest(".formData").setAttribute("data-error", "Veuillez entrer un email valide (ex : johndoe@gmail.com).")
-  email.value="";
   
-  return false;
+    return false;
+  }
+  else{
+
+    location1.closest(".formData").setAttribute("data-error-visible", false);
+    return true;
+  }
 }
-else if(birthDate.value == null || birthDate.value == ""){
-  console.log('Veuillez entrer une date de de naissance');
-  birthDate.parentElement.setAttribute("data-error-visible", true);
-  birthDate.parentElement.setAttribute("data-error", "Veuillez entrer un email valide (ex : johndoe@gmail.com).")
-  birthDate.value="";
-
-  return false
-
-}
-//  (4) Pour le nombre de concours, une valeur numérique est saisie.
-else if(tournamentQtt.value == null || tournamentQtt.value == "" || isNaN(tournamentQtt.value) == true || tournamentQtt.value < 0){
-  console.log('Veuillez entrer un chiffre');
-  tournamentQtt.closest(".formData").setAttribute("data-error-visible", true);
-  tournamentQtt.closest(".formData").setAttribute("data-error", "Veuillez renseigner le nombre de tournois auxquels vous avez participé.")
-  tournamentQtt.value="";
-
-  return false;
-
-}
-//(5) Un bouton radio est sélectionné. (Bouton Aucun)
-else if(city == null  || city == undefined){
-  console.log('Veuillez choisir une ville');
-  location1.closest(".formData").setAttribute("data-error-visible", true);
-  location1.closest(".formData").setAttribute("data-error", "Veuillez sélectionner une ville.")
 
 
-  return false;
-}
 //(6) La case des conditions générales est cochée, l'autre case est facultative / peut être laissée décochée.
-else if(termsOfUse.checked != true || termsOfUse.checked == undefined || termsOfUse.checked == null){
-  console.log("Veuillez accepter nos conditions");
-  termsOfUse.closest(".formData").setAttribute("data-error-visible", true);
-  termsOfUse.closest(".formData").setAttribute("data-error", "Vous devez accepter les termes et conditions.");
+const termsOfUseVerification = () =>{
 
-  return false;
+  if(termsOfUse.checked != true || termsOfUse.checked == undefined || termsOfUse.checked == null){
+    console.log("Veuillez accepter nos conditions");
+    termsOfUse.closest(".formData").setAttribute("data-error-visible", true);
+    termsOfUse.closest(".formData").setAttribute("data-error", "Vous devez accepter les termes et conditions.");
+  
+    return false;
+  }
+  else{
+
+    termsOfUse.closest(".formData").setAttribute("data-error-visible", false);
+    return true;
+  }
+
 }
-else{
-
-  return true;
-}
-
-}
 
 
-// checkBox termsOfUse cochée par défaut;
-termsOfUse.setAttribute("checked", true);
+
+
+
+
+
 
 
 
@@ -178,8 +249,9 @@ termsOfUse.setAttribute("checked", true);
 let formData;
 let allDatas =[];
 function validate(){
-  if(getLocation() == true && formVerification() == true ){
+  if(firstNameVerification() == true && lastNameVerification() == true && emailVerification() == true && birthDateVerification() == true && tournamentQttVerification() == true && getLocation() == true && radioBtnVerification() == true && termsOfUseVerification() == true){
 
+    birthDate.value;
     formData = {
 
       Prénom: firstName.value,
@@ -209,12 +281,16 @@ function validate(){
 // function ThanksModal
 let modalForm = document.querySelector("#modalForm");
 let modalBody = document.querySelector(".modal-body");
-let thanksModal = () => {
+
+const thanksModal = () => {
+// On garde la structure de la modale et retire le formulaire
   form.remove();
+// Création du nouveau contenu de la modale
   modalBody.innerHTML += 
   "<div class = 'thanksModal'> <div class = 'thanksMessage'>Thank you for submiting your registration details<div> <div class = 'thanksBtn' id='thanksBtn'> Close <div>";
   modalbg.style.display = "block";
 
+//Fonction de suppression de la modale
   let thanksBtn = document.querySelector('#thanksBtn');
 thanksBtn.addEventListener('click', ()=> {
   modalbg.style.display = "none";
