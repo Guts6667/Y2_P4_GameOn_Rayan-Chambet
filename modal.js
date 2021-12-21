@@ -249,7 +249,17 @@ const termsOfUseVerification = () =>{
 let formData;
 let allDatas =[];
 function validate(){
-  if(firstNameVerification() == true && lastNameVerification() == true && emailVerification() == true && birthDateVerification() == true && tournamentQttVerification() == true && getLocation() == true && radioBtnVerification() == true && termsOfUseVerification() == true){
+
+  let firstNameCheck = firstNameVerification();
+  let lastNameCheck = lastNameVerification();
+  let emailCheck = emailVerification();
+  let birthDateCheck = birthDateVerification();
+  let tournamentCheck = tournamentQttVerification();
+  let locationCheck = getLocation();
+  let radioCheck = radioBtnVerification();
+  let termsCheck = termsOfUseVerification();
+
+  if(firstNameCheck && lastNameCheck && emailCheck && birthDateCheck && tournamentCheck && locationCheck && radioCheck && termsCheck){
 
     birthDate.value;
     formData = {
